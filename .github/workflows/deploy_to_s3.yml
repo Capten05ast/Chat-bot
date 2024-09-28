@@ -18,7 +18,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'  # or specify a version like '3.10.5'
+          flutter-version: '3.24.3'  # or specify a version like '3.10.5'
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -37,5 +37,5 @@ jobs:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}  # Your bucket name from secrets
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}  # AWS Access Key in Secrets
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # AWS Secret Key in Secrets
-          AWS_REGION: 'us-east-1'  # Change this if your S3 bucket is in another region
+          AWS_REGION: 'eu-north-1'  # Change this if your S3 bucket is in another region
           SOURCE_DIR: 'build/web/'  # Point to the Flutter build output folder
