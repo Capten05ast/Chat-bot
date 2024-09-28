@@ -1,0 +1,41 @@
+name: Upload Website
+
+on:
+  push:
+    branches:
+      - main  # Use your default branch (e.g., 'main' or 'master')
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Flutter (optional version setting)
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'  # or specify a version like '3.10.5'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Step 4: Build the Flutter Web app
+      - name: Build Flutter Web
+        run: flutter build web --release
+
+      # Step 5: Deploy to S3
+      - name: Sync files to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}  # Your bucket name from secrets
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}  # AWS Access Key in Secrets
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # AWS Secret Key in Secrets
+          AWS_REGION: 'us-east-1'  # Change this if your S3 bucket is in another region
+          SOURCE_DIR: 'build/web/'  # Point to the Flutter build output folder
