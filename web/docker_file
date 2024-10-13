@@ -1,0 +1,8 @@
+# Step 1: Use NGINX as the base image to serve your static files
+FROM nginx:alpine
+
+# Step 2: Copy your files (HTML, CSS, JS) from your local project to the NGINX directory in Docker
+COPY . /usr/share/nginx/html
+
+# Step 3: Expose port 80 (the default port NGINX serves on)
+EXPOSE 80
